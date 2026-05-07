@@ -1,3 +1,4 @@
+import type { RowDataPacket } from 'mysql2';
 import z from 'zod';
 
 export const ProjectRequestSchema = z.object({
@@ -10,3 +11,5 @@ export const ProjectRequestSchema = z.object({
 });
 
 export type ProjectRequest = z.infer<typeof ProjectRequestSchema>;
+
+export type Project =  RowDataPacket & ProjectRequest;

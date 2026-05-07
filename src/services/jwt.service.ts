@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 const signAccessToken = (payload: TokenPayload): string => {
   return jwt.sign(
-    { id: payload.id, email:payload.email, roles: payload.role },
+    { id: payload.id, email:payload.email, role: payload.role },
     process.env.JWT_SECRET,
     {
       expiresIn: '24h',
@@ -13,7 +13,7 @@ const signAccessToken = (payload: TokenPayload): string => {
 
 const signRefreshToken = (payload: TokenPayload): string => {
   return jwt.sign(
-    { id: payload.id, email:payload.email, roles: payload.role },
+    { id: payload.id, email:payload.email, role: payload.role },
     process.env.JWT_SECRET,
     {
       expiresIn: '7d',

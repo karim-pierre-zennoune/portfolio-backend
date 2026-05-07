@@ -5,9 +5,6 @@ declare global {
   namespace Express {
     interface Request {
       user: TokenPayload;
-      // user_id: number;
-      // user_roles: string[];
-      // uploadedFiles: Record<string, MulterS3File> = {};
     }
   }
 }
