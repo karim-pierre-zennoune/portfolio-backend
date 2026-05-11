@@ -1,30 +1,20 @@
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ZodError, ZodType } from 'zod';
+import type { AnyZodObject } from 'zod/v3';
 
-export const validate =
-  (schema: ZodType): RequestHandler =>
-  async (req: Request, res: Response, next: NextFunction) => {
+// AnyZodObject instead of ZodType ?
+  export const validate = (validator: ZodType) => async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const dataToValidate: Record<string, unknown> = {
-        ...(req.body as Record<string, unknown>),
-        // videoPath: req.uploadedFiles?.video,
-        // coverPath: req.uploadedFiles?.coverImage,
-        // stillsUrls: [
-        //   req.uploadedFiles?.stillImageA,
-        //   req.uploadedFiles?.stillImageB,
-        //   req.uploadedFiles?.stillImageC,
-        // ].filter(Boolean),
-      };
-      req.body = await schema.parseAsync(dataToValidate);
-      next();
-    } catch (error) {
-      if (error instanceof ZodError) {
-        // await removeUploads(req);
-        return res.status(400).json({
-          message: 'Validation failed',
-          errors: error.issues,
+        await validator.parseAsync({
+            body: req.body,
+            query: req.query,
+            params: req.params,
         });
-      }
-      next(error);
+        next();
+    } catch (error) {
+        if (error instanceof ZodError) {
+              return res.status(400).send({ msg: error.issues[0]?.message ?? "Error message missing" } );
+        }
+        return res.status(500).send("Error making request, contact support" );
     }
-  };
+};

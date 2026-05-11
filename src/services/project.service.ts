@@ -13,7 +13,6 @@ const getProjectById = async(id: number): Promise<Project> => {
     if (!result){
         throw new AppError(404, 'Projet introuvable');
     }
-    // console.log(result);
     return result as Project;
 }
 
@@ -25,11 +24,28 @@ const createProject = async(data:ProjectRequest): Promise<Project> =>{
     return result as Project;
 }
 
+const updateProject = async(id: number, data:ProjectRequest): Promise<Project> =>{
+    const isProject = await projectModel.findById(id);
+    if (!isProject){
+        throw new AppError(404, "Project not found");
+    }
+    return await projectModel.update(id, data);
+}
+
+const deleteProject = async(id: number): Promise<Boolean> => {
+    const isDeleted = await projectModel.remove(id);
+    if (!isDeleted){
+        throw new AppError(404, "Project not found");
+    }
+    return true;
+}
 
 const projectService = {
     getAllProjects,
     getProjectById,
-    createProject
+    createProject,
+    updateProject,
+    deleteProject
 }
 
 export default  projectService;

@@ -8,12 +8,3 @@ const authRouter = express.Router();
 authRouter.post('/login', validate(AuthRequestSchema), authController.login);
 
 export default authRouter;
-
-
-// Dans src/routes/auth.routes.js, déclarer
-//  POST /login avec les middlewares : validateAuth · validate
-//  · puis le contrôleur, et brancher le fichier dans server.js.
-
-
-// Exemple d'usage attendu dans une route :
-// router.post('/', authenticate, authorize('admin'), createProject);

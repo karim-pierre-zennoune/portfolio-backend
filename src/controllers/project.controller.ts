@@ -14,21 +14,29 @@ const createProject: RequestHandler = async(req, res) => {
 }
 
 const getProjectById: RequestHandler = async(req, res) =>{
-    // console.log(parseInt(req.params.id as string));
     const id = parseInt(req.params.id as string);
-    if (isNaN(id)){
-        throw new AppError(404, "Invalid param ID");
-    }
-    const project = await projectService.getProjectById(parseInt(req.params.id as string));
-    console.log(project);
+    const project = await projectService.getProjectById(id);
     return res.json(project);
+}
+
+const updateProject: RequestHandler = async(req,res)=>{
+    const id = parseInt(req.params.id as string);
+    return res.json(await projectService.updateProject(id, req.body));
+}
+
+const deleteProject: RequestHandler = async(req,res) =>{
+    const id = parseInt(req.params.id as string);
+    await projectService.deleteProject(id);
+    return res.status(204).send();
 }
 
 
 const projectController = {
     getAllProjects,
     createProject,
-    getProjectById
+    getProjectById,
+    updateProject,
+    deleteProject
 }
 
 

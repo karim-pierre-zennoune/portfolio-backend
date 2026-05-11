@@ -7,5 +7,4 @@ const authorize = (allowedRole : string) => (req: Request, res: Response, next: 
 next();
 };
 
-// module.exports = authorize;
 export default authorize;
